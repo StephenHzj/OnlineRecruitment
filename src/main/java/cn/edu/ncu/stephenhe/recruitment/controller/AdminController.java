@@ -102,7 +102,7 @@ public class AdminController {
     @Operation(summary = "上传公司Logo")
     @PostMapping(value = "/company/upload")
     public Result uploadHrLogo(@RequestParam("file") MultipartFile[] files) {
-        String path = "C:\\Users\\StephenHe\\IdeaProjects\\recruitment-front\\public\\img\\company\\";
+        String path = "C:\\Users\\StephenHe\\IdeaProjects\\recruitment-front\\src\\assets\\logo\\company\\";
         return new Result(200,"上传成功",companyService.uploadCompanyLogo(files,path));
     }
 
