@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.ncu.stephenhe.recruitment.dao.mapper.JobMapper">
+
+<!--    <resultMap id="Job_Hr_Company" type="cn.edu.ncu.stephenhe.recruitment.entity.Job">-->
+<!--        <id column="jobId" property="jobId" jdbcType="INTEGER" />-->
+<!--        <result column="jobName" property="jobName" jdbcType="VARCHAR" />-->
+<!--        <result column="salary" property="salary" jdbcType="VARCHAR" />-->
+<!--        <result column="introduction" property="introduction" jdbcType="VARCHAR" />-->
+<!--        <result column="requirement" property="requirement" jdbcType="VARCHAR" />-->
+<!--        <result column="degree" property="degree" jdbcType="VARCHAR" />-->
+<!--        <result column="quantity" property="quantity" jdbcType="INTEGER" />-->
+<!--        <result column="location" property="location" jdbcType="VARCHAR" />-->
+<!--        <result column="updateDate" property="updateDate" jdbcType="VARCHAR" />-->
+<!--        <result column="jobState" property="jobState" jdbcType="INTEGER" />-->
+
+<!--&lt;!&ndash;        <result column="companyName" property="companyName" jdbcType="VARCHAR" />&ndash;&gt;-->
+<!--&lt;!&ndash;        <result column="hrName" property="hrName" jdbcType="VARCHAR" />&ndash;&gt;-->
+<!--&lt;!&ndash;        association关联属性 property属性名 javaType属性类型 column在多的一方的表中的列名&ndash;&gt;-->
+<!--&lt;!&ndash;        公司名&ndash;&gt;-->
+<!--        <association  property="company"  javaType="cn.edu.ncu.stephenhe.recruitment.entity.Company" >-->
+<!--            <result column="companyName" property="companyName" jdbcType="VARCHAR" />-->
+<!--        </association>-->
+<!--&lt;!&ndash;        HR名字&ndash;&gt;-->
+<!--        <association  property="hr"  javaType="cn.edu.ncu.stephenhe.recruitment.entity.Hr" >-->
+<!--            <result column="hrName" property="hrName" jdbcType="VARCHAR" />-->
+<!--        </association>-->
+<!--    </resultMap>-->
+
+<!--    <select id="getJobsInfo" resultMap="Job_Hr_Company" >-->
+<!--        select j.job_id jobId,j.job_name jobName, j.salary salary,j.introduction introduction,j.requirement requirement,j.degree degree,j.quantity quantity,-->
+<!--                j.location location,j.update_date updateDate, j.job_state jobState,h.hr_name hrName,c.company_name companyName-->
+<!--        from job j,hr h,company c  where j.company_id = c.company_id and j.hr_id = h.hr_id-->
+<!--    </select>-->
+
+    <select id="getJobsInfo" resultType="cn.edu.ncu.stephenhe.recruitment.entity.ext.CompleteJobInfo">
+        select * from job j  join hr h on j.hr_id = h.hr_id join company c where j.company_id = c.company_id
+    </select>
+
+
+
+
+</mapper>

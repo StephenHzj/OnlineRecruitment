@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.ncu.stephenhe.recruitment.dao.mapper.UserMapper">
+
+
+    <resultMap id="BaseResultMap" type="cn.edu.ncu.stephenhe.recruitment.entity.User">
+        <id column="user_id" property="userId" jdbcType="INTEGER" />
+        <result column="user_tel" property="userTel" jdbcType="VARCHAR" />
+        <result column="user_password" property="userPassword" jdbcType="VARCHAR" />
+        <result column="user_name" property="userName" jdbcType="VARCHAR" />
+        <result column="user_logo" property="userLogo" jdbcType="VARCHAR" />
+        <result column="user_gender" property="userGender" jdbcType="INTEGER" />
+        <result column="user_email" property="userEmail" jdbcType="VARCHAR" />
+        <result column="user_birth" property="userBirth" jdbcType="VARCHAR" />
+    </resultMap>
+
+
+    <select id="selectUser" resultMap="BaseResultMap">
+        select * from user
+    </select>
+
+
+
+</mapper>
