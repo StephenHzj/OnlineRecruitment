@@ -59,18 +59,7 @@ public class Job {
 
     @Column(name = "job_state")
     private Integer jobState;
-//
-//
-//    @ManyToOne(targetEntity = Hr.class)
-//    private Hr hr;
-//
-//
-//    @ManyToOne(targetEntity = Company.class)
-//    private Company company;
 
-//    private String hrName;
-//
-//    private String companyName;
 
 
 

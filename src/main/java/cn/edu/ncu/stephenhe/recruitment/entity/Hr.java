@@ -47,8 +47,5 @@ public class Hr{
     @Column(name = "hr_profile")
     private String hrProfile;
 
-    @ManyToOne(targetEntity = Company.class)
-    private Company company;
-
 
 }

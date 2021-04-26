@@ -7,6 +7,6 @@ import java.util.List;
 
 @Mapper
 public interface HrMapper {
-     List<Hr> getHrs();
+
      List<Hr> getHrsInfo();
 }

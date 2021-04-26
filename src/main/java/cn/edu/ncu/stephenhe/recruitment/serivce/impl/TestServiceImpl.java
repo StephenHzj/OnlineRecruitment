@@ -17,7 +17,7 @@ public class TestServiceImpl implements TestService {
 
     @Override
     public List<Hr> HrInfo() {
-        return hrMapper.getHrs();
+        return hrMapper.getHrsInfo();
     }
 
     @Override

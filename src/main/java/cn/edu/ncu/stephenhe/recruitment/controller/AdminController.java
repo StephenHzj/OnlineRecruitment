@@ -52,8 +52,8 @@ public class AdminController {
     @GetMapping(path = "/user/{page}")
     public Result geAllUsers(@PathVariable int page){
 
-        Page<User> pageUsers = userService.getUserPage(page -1); //jpa从0开始
-        return new Result(200,"查询成功",pageUsers);
+        Page<User> userPage = userService.getUserPage(page -1); //jpa从0开始
+        return new Result(200,"查询成功",userPage);
 
     }
 
@@ -64,11 +64,11 @@ public class AdminController {
         return new Result(200,"查询成功",jobService.getAllJobs());
     }
 
+
     @Operation(summary = "查看HR(全部)")
     @GetMapping(path = "/hr")
     public Result getAllHrs(){
-        return new Result(200,"查询成功",hrService.getAllHrs());
-
+        return new Result(200,"查询成功",hrService.getHrsInfo());
     }
 
 
@@ -76,14 +76,13 @@ public class AdminController {
     @GetMapping(path = "/company")
     public Result getAllCompanies(){
         return new Result(200,"查询成功",companyService.getAllCompanies());
-
     }
+
 
     @Operation(summary = "查看公司(分页)")
     @GetMapping(path = "/company/{page}")
     public Result geAllCompanies(@PathVariable int page){
         return new Result(200,"查询成功",adminService.getCompanyPage(page -1));      //jpa从0开始
-
     }
 
 
