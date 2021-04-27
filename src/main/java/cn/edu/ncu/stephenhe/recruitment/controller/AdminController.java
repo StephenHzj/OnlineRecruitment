@@ -61,7 +61,7 @@ public class AdminController {
     @Operation(summary = "查看岗位(全部)")
     @GetMapping(path = "/job")
     public Result getAllJobs(){
-        return new Result(200,"查询成功",jobService.getAllJobs());
+        return new Result(200,"查询成功",jobService.getJobsInfo());
     }
 
 
@@ -115,16 +115,12 @@ public class AdminController {
 
     @Operation(summary = "审核公司")
     @GetMapping(path = "/company/audit/{companyCode}")
-    public String auditCompany(@PathVariable String companyCode){
-        int state = adminService.auditCompany(companyCode);
-        if(state == -1)
-            return "公司不存在";
-        if(state == 1)
-           return "审核成功";
-        if(state == 0)
-           return "取消权限成功";
+    public Result auditCompany(@PathVariable String companyCode){
+        if(companyService.auditCompany(companyCode))
+            return new Result(200,"审核成功");
         else
-           return "审核错误(未知error)";
+            return new Result(503,"审核失败");
+
     }
 
     @Operation(summary = "删除岗位")
@@ -158,16 +154,15 @@ public class AdminController {
     }
 
     @Operation(summary = "审核岗位")
-    @GetMapping(path = "/job/audit/{id}")
-    public String auditJob(@PathVariable int id){
-        int state = adminService.auditJob(id);
-        if(state == 1)
-            return "审核成功";
-        if(state == 0)
-            return "取消权限成功";
+    @GetMapping(path = "/job/disable/{id}")
+    public Result disableJob(@PathVariable int id){
+
+        if(jobService.disableJob(id))
+           return new Result(200,"禁用成功");
         else
-            return "审核错误(未知error)";
+            return new Result(503,"禁用失败");
     }
+
 
 
     /**

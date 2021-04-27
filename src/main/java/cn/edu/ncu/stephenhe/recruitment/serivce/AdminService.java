@@ -15,10 +15,6 @@ public interface AdminService {
 
     int deleteJobById(int id);
 
-    int auditCompany(String companyCode);
-
-    int auditJob(int id);
-
 
 
     Page<Company> getCompanyPage(Integer page) ;

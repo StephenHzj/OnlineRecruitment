@@ -31,7 +31,27 @@ public class JobServiceImpl implements JobService {
 
     @Override
     public List<Job> getJobsInfo() {
-        return null;
+        return jobMapper.getJobsInfo();
     }
 
+    @Override
+    public boolean disableJob(int id) {
+        try {
+            Job job = jobRepository.getJobByJobId(id);
+            if(job.getJobState() == 1) {
+                job.setJobState(0);
+                jobRepository.save(job);
+                return true;
+            }
+            if(job.getJobState() == 0) {
+                job.setJobState(1);
+                jobRepository.save(job);
+                return true;
+            }else
+                return true;
+        } catch (Exception e) {
+            e.getStackTrace();
+            return false;
+        }
+    }
 }

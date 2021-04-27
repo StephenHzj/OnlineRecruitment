@@ -20,4 +20,6 @@ public interface CompanyService {
     Company registerCompany(Company company);
 
     String uploadCompanyLogo(MultipartFile[] files,String path);
+
+    boolean auditCompany(String companyCode);
 }

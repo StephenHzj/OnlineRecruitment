@@ -1,7 +1,6 @@
 package cn.edu.ncu.stephenhe.recruitment;
 
 import cn.edu.ncu.stephenhe.recruitment.dao.mapper.JobMapper;
-import cn.edu.ncu.stephenhe.recruitment.entity.ext.CompleteJobInfo;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +18,9 @@ class RecruitmentApplicationTests {
 
     @Test
     void contextLoads() {
-        List<CompleteJobInfo> jobsInfo = jobMapper.getJobsInfo();
-
-        System.out.println(jobsInfo);
+//        List<CompleteJobInfo> jobsInfo = jobMapper.getJobsInfo();
+//
+//        System.out.println(jobsInfo);
     }
 
 }

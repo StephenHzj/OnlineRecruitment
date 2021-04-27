@@ -33,7 +33,7 @@
 <!--        from job j,hr h,company c  where j.company_id = c.company_id and j.hr_id = h.hr_id-->
 <!--    </select>-->
 
-    <select id="getJobsInfo" resultType="cn.edu.ncu.stephenhe.recruitment.entity.ext.CompleteJobInfo">
+    <select id="getJobsInfo" resultType="cn.edu.ncu.stephenhe.recruitment.entity.ext.JobHrCompany">
         select * from job j  join hr h on j.hr_id = h.hr_id join company c where j.company_id = c.company_id
     </select>
 

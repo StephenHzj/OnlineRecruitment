@@ -1,6 +1,6 @@
 package cn.edu.ncu.stephenhe.recruitment.dao.mapper;
 
-import cn.edu.ncu.stephenhe.recruitment.entity.ext.CompleteJobInfo;
+import cn.edu.ncu.stephenhe.recruitment.entity.Job;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -8,5 +8,5 @@ import java.util.List;
 
 @Mapper
 public interface JobMapper {
-    List<CompleteJobInfo> getJobsInfo();
+    List<Job> getJobsInfo();
 }

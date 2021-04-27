@@ -12,4 +12,6 @@ public interface JobService {
 
     List<Job> getJobsInfo();
 
+    boolean disableJob(int id);
+
 }

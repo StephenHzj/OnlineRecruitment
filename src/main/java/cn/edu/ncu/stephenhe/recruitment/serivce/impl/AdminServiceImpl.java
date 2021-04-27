@@ -59,50 +59,6 @@ public class AdminServiceImpl implements AdminService {
     }
 
 
-    @Override
-    public int auditCompany(String companyCode) {
-        Company company = companyRepository.getCompanyByCompanyCode(companyCode);
-
-        //companyCode错误，公司不存在
-        if (company == null)
-            return -1;
-
-        //通过审核
-        if (company.getCompanyState() == 0) {
-            company.setCompanyState(1);
-            companyRepository.save(company);
-            return 1;
-        }
-        //取消权限
-        if (company.getCompanyState() == 1){
-            company.setCompanyState(0);
-            companyRepository.save(company);
-            return 0;
-        }
-        //未知错误
-        return -2;
-    }
-
-    //未处理空指针异常
-    @Override
-    public int auditJob(int id) {
-        Job job = jobRepository.getJobByJobId(id);
-
-        //通过审核
-        if (job.getJobState() == 0) {
-            job.setJobState(1);
-            jobRepository.save(job);
-            return 1;
-        }
-        //取消权限
-        if (job.getJobState() == 1){
-            job.setJobState(0);
-            jobRepository.save(job);
-            return 0;
-        }
-        //未知错误
-        return -2;
-    }
 
 
 
