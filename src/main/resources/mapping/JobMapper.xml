@@ -2,41 +2,62 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.edu.ncu.stephenhe.recruitment.dao.mapper.JobMapper">
 
-<!--    <resultMap id="Job_Hr_Company" type="cn.edu.ncu.stephenhe.recruitment.entity.Job">-->
-<!--        <id column="jobId" property="jobId" jdbcType="INTEGER" />-->
-<!--        <result column="jobName" property="jobName" jdbcType="VARCHAR" />-->
-<!--        <result column="salary" property="salary" jdbcType="VARCHAR" />-->
-<!--        <result column="introduction" property="introduction" jdbcType="VARCHAR" />-->
-<!--        <result column="requirement" property="requirement" jdbcType="VARCHAR" />-->
-<!--        <result column="degree" property="degree" jdbcType="VARCHAR" />-->
-<!--        <result column="quantity" property="quantity" jdbcType="INTEGER" />-->
-<!--        <result column="location" property="location" jdbcType="VARCHAR" />-->
-<!--        <result column="updateDate" property="updateDate" jdbcType="VARCHAR" />-->
-<!--        <result column="jobState" property="jobState" jdbcType="INTEGER" />-->
+    <resultMap id="Job_Hr_Company" type="cn.edu.ncu.stephenhe.recruitment.entity.ext.JobDetail">
+        <id column="job_id" property="jobId" jdbcType="INTEGER" />
+        <result column="company_id" property="companyId" jdbcType="VARCHAR" />
+        <result column="hr_id" property="hrId" jdbcType="VARCHAR" />
+        <result column="job_name" property="jobName" jdbcType="VARCHAR" />
+        <result column="salary" property="salary" jdbcType="VARCHAR" />
+        <result column="introduction" property="introduction" jdbcType="VARCHAR" />
+        <result column="requirement" property="requirement" jdbcType="VARCHAR" />
+        <result column="degree" property="degree" jdbcType="VARCHAR" />
+        <result column="quantity" property="quantity" jdbcType="INTEGER" />
+        <result column="location" property="location" jdbcType="VARCHAR" />
+        <result column="update_date" property="updateDate" jdbcType="VARCHAR" />
+        <result column="job_state" property="jobState" jdbcType="INTEGER" />
 
-<!--&lt;!&ndash;        <result column="companyName" property="companyName" jdbcType="VARCHAR" />&ndash;&gt;-->
-<!--&lt;!&ndash;        <result column="hrName" property="hrName" jdbcType="VARCHAR" />&ndash;&gt;-->
-<!--&lt;!&ndash;        association关联属性 property属性名 javaType属性类型 column在多的一方的表中的列名&ndash;&gt;-->
-<!--&lt;!&ndash;        公司名&ndash;&gt;-->
-<!--        <association  property="company"  javaType="cn.edu.ncu.stephenhe.recruitment.entity.Company" >-->
-<!--            <result column="companyName" property="companyName" jdbcType="VARCHAR" />-->
-<!--        </association>-->
-<!--&lt;!&ndash;        HR名字&ndash;&gt;-->
-<!--        <association  property="hr"  javaType="cn.edu.ncu.stephenhe.recruitment.entity.Hr" >-->
-<!--            <result column="hrName" property="hrName" jdbcType="VARCHAR" />-->
-<!--        </association>-->
-<!--    </resultMap>-->
+<!--        association关联属性 property属性名 javaType属性类型 column在多的一方的表中的列名-->
+<!--        公司名-->
+        <association  property="company"  javaType="cn.edu.ncu.stephenhe.recruitment.entity.Company" >
+            <result column="company_name" property="companyName" jdbcType="VARCHAR" />
+            <result column="company_location" property="companyLocation" jdbcType="VARCHAR" />
+            <result column="company_logo" property="companyLogo" jdbcType="VARCHAR" />
+            <result column="company_email" property="companyEmail" jdbcType="VARCHAR" />
+            <result column="company_profile" property="companyProfile" jdbcType="VARCHAR" />
+        </association>
+<!--        HR名字-->
+        <association  property="hr"  javaType="cn.edu.ncu.stephenhe.recruitment.entity.Hr" >
+            <result column="hr_name" property="hrName" jdbcType="VARCHAR" />
+            <result column="hr_tel" property="hrTel" jdbcType="VARCHAR" />
+            <result column="hr_logo" property="hrLogo" jdbcType="VARCHAR" />
+            <result column="hr_email" property="hrEmail" jdbcType="VARCHAR" />
+            <result column="hr_profile" property="hrProfile" jdbcType="VARCHAR" />
+        </association>
+    </resultMap>
 
-<!--    <select id="getJobsInfo" resultMap="Job_Hr_Company" >-->
+<!--    <select id="getJobDetail" resultMap="Job_Hr_Company" >-->
 <!--        select j.job_id jobId,j.job_name jobName, j.salary salary,j.introduction introduction,j.requirement requirement,j.degree degree,j.quantity quantity,-->
 <!--                j.location location,j.update_date updateDate, j.job_state jobState,h.hr_name hrName,c.company_name companyName-->
-<!--        from job j,hr h,company c  where j.company_id = c.company_id and j.hr_id = h.hr_id-->
+<!--        from job j,hr h,company c  where j.company_id = c.company_id and j.hr_id = h.hr_id and j.job_id = #{jobId}-->
 <!--    </select>-->
+
+    <select id="getJobDetail" resultMap="Job_Hr_Company" >
+        select *
+        from job j,hr h,company c  where j.company_id = c.company_id and j.hr_id = h.hr_id and j.job_id = #{jobId}
+    </select>
 
     <select id="getJobsInfo" resultType="cn.edu.ncu.stephenhe.recruitment.entity.ext.JobHrCompany">
         select * from job j  join hr h on j.hr_id = h.hr_id join company c where j.company_id = c.company_id
     </select>
 
+    <select id="showJob" resultType="cn.edu.ncu.stephenhe.recruitment.entity.ext.JobHrCompany">
+        select * from job j  join hr h on j.hr_id = h.hr_id join company c
+        where j.company_id = c.company_id and j.job_state = 1
+    </select>
+
+<!--    <select id="getJobDetail" resultMap="Job_Hr_Company">-->
+<!--        select * from job j ,hr h,company c  where j.company_id = c.company_id and j.hr_id = h.hr_id and j.job_id = #{0}-->
+<!--    </select>-->
 
 
 

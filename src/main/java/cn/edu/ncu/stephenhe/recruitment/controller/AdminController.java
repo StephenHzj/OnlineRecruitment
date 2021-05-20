@@ -40,6 +40,17 @@ public class AdminController {
     private AdminService adminService;
 
 
+    @PostMapping("/login")
+    public Result adminLogin(@RequestBody Admin admin){
+        String tel = admin.getAdminTel();
+        String password = admin.getAdminPassword();
+        String token =  adminService.loginAdmin(tel,password);
+        if(token != null)
+            return new Result(200,"Bearer:"+token);
+        else
+            return new Result(503,"");
+    }
+
     @Operation(summary = "查看用户(全部)")
     @GetMapping(path = "/user")
     public Result geAllUsers(){
@@ -49,7 +60,7 @@ public class AdminController {
 
 
     @Operation(summary = "查看用户(分页)")
-    @GetMapping(path = "/user/{page}")
+    @GetMapping(path = "/user/page/{page}")
     public Result geAllUsers(@PathVariable int page){
 
         Page<User> userPage = userService.getUserPage(page -1); //jpa从0开始
@@ -80,7 +91,7 @@ public class AdminController {
 
 
     @Operation(summary = "查看公司(分页)")
-    @GetMapping(path = "/company/{page}")
+    @GetMapping(path = "/company/page/{page}")
     public Result geAllCompanies(@PathVariable int page){
         return new Result(200,"查询成功",adminService.getCompanyPage(page -1));      //jpa从0开始
     }
@@ -163,50 +174,57 @@ public class AdminController {
             return new Result(503,"禁用失败");
     }
 
-
-
-    /**
-     * 管理员登录
-     *
-     * @return 登录 成功->1 失败->0
-     */
-    @Operation(summary = "管理员登录")
-    @PostMapping(value = "/admin/login")
-    public String adminLogin(HttpServletRequest request, @RequestBody Admin admin) {
-
-        String tel = admin.getAdminTel();
-        String password = admin.getAdminPassword();
-
-
-        if (tel == null ) {
-            return "请输入用户名";
-        }else if(password == null){
-            return "请输入密码";
-        }
-
-        Admin loginAdmin = adminService.getAdminByTel(tel);
-
-        if(loginAdmin == null)
-            return "用户不存在请先注册";
-
-        if (adminService.loginAdmin(tel, password)) {
-            HttpSession httpSession = request.getSession();
-            httpSession.setAttribute("user", admin.getAdminId());
-            return "登录成功";
-        }
-        else {
-            return "密码错误！";
-        }
-
-
-//        request.getSession().setAttribute("user", user);
-//        Cookie cookie = new Cookie("user","123");
-//        cookie.setMaxAge(10);
-//        response.addCookie(cookie);
-//        return "success";
-
-
-        //前端验证
+    @Operation(summary = "获取admin名称")
+    @GetMapping("/admin/{tel}")
+    public Result getAdminName(@PathVariable String tel){
+        Admin admin =  adminService.getAdminByTel(tel);
+        return new Result(200,admin.getAdminName());
     }
+
+
+
+//    /**
+//     * 管理员登录
+//     *
+//     * @return 登录 成功->1 失败->0
+//     */
+//    @Operation(summary = "管理员登录")
+//    @PostMapping(value = "/admin/login")
+//    public String adminLogin(HttpServletRequest request, @RequestBody Admin admin) {
+//
+//        String tel = admin.getAdminTel();
+//        String password = admin.getAdminPassword();
+//
+//
+//        if (tel == null ) {
+//            return "请输入用户名";
+//        }else if(password == null){
+//            return "请输入密码";
+//        }
+//
+//        Admin loginAdmin = adminService.getAdminByTel(tel);
+//
+//        if(loginAdmin == null)
+//            return "用户不存在请先注册";
+//
+//        if (adminService.loginAdmin(tel, password)) {
+//            HttpSession httpSession = request.getSession();
+//            httpSession.setAttribute("user", admin.getAdminId());
+//            return "登录成功";
+//        }
+//        else {
+//            return "密码错误！";
+//        }
+//
+//
+////        request.getSession().setAttribute("user", user);
+////        Cookie cookie = new Cookie("user","123");
+////        cookie.setMaxAge(10);
+////        response.addCookie(cookie);
+////        return "success";
+//
+//
+//        //前端验证
+//    }
 
 }

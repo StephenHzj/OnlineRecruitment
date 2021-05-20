@@ -54,4 +54,9 @@ public class JobServiceImpl implements JobService {
             return false;
         }
     }
+
+    @Override
+    public List<Job> showJob() {
+        return jobMapper.showJob();
+    }
 }

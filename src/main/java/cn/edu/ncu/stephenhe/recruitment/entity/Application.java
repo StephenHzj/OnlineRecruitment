@@ -23,7 +23,6 @@ import javax.validation.constraints.NotNull;
 @Table(name = "application")
 public class Application{
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotNull
@@ -50,6 +49,5 @@ public class Application{
 
     @Column(name = "application_state")
     private Integer applicationState;
-
 
 }

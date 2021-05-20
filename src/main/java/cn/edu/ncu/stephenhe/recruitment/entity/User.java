@@ -32,15 +32,12 @@ public class User {
     private Integer userId;
 
     @Column(name = "user_tel")
-    @NotNull
     private String userTel;
 
     @Column(name = "user_password")
-    @NotNull
     private String userPassword;
 
     @Column(name = "user_name")
-    @NotNull
     private String userName;
 
     @Column(name = "user_logo")

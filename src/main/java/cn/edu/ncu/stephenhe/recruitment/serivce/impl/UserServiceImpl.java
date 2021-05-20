@@ -6,11 +6,14 @@ import cn.edu.ncu.stephenhe.recruitment.dao.UserRepository;
 import cn.edu.ncu.stephenhe.recruitment.entity.User;
 import cn.edu.ncu.stephenhe.recruitment.entity.response.Result;
 import cn.edu.ncu.stephenhe.recruitment.serivce.UserService;
+import cn.edu.ncu.stephenhe.recruitment.utils.JwtUtil;
+import cn.edu.ncu.stephenhe.recruitment.utils.UploadUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -55,19 +58,26 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean loginUser(String tel, String password) {
+    public String loginUser(String tel, String password) {
         User user = userRepository.getUserByUserTel(tel);
         if(user == null)
-            return false;
-        if(user.getUserPassword().equals(password))
-            return true;
-        else
-            return false;
+            return null;
+        else if(user.getUserPassword().equals(password)){
+            String token =  JwtUtil.createToken(user);
+            return token;
+        }else
+            return null;
     }
 
     @Override
     public User updateUser(User user) {
         return null;
+    }
+
+    @Override
+    public String uploadUserLogo(MultipartFile[] files, String path) {
+        UploadUtils uploadUtils = new UploadUtils();
+        return uploadUtils.uploadFile(files,path) ;
     }
 
 

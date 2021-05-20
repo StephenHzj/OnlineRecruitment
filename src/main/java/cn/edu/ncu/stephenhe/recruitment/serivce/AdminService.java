@@ -21,6 +21,6 @@ public interface AdminService {
 
     Admin getAdminByTel(String tel);
 
-    boolean loginAdmin(String tel,String password);
+    String loginAdmin(String tel,String password);
 
 }

@@ -2,10 +2,15 @@ package cn.edu.ncu.stephenhe.recruitment.controller;
 
 
 import cn.edu.ncu.stephenhe.recruitment.entity.User;
+import cn.edu.ncu.stephenhe.recruitment.entity.response.Result;
+import cn.edu.ncu.stephenhe.recruitment.serivce.JobService;
+import cn.edu.ncu.stephenhe.recruitment.serivce.ResumeService;
 import cn.edu.ncu.stephenhe.recruitment.serivce.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -18,6 +23,12 @@ public class UserController {
     @Resource
     private UserService userService;
 
+    @Resource
+    private JobService jobService;
+
+    @Resource
+    private ResumeService resumeService;
+
 
 
     /**
@@ -27,29 +38,22 @@ public class UserController {
      */
     @Operation(summary = "用户登录")
     @PostMapping(value = "/user/login")
-    public String userLogin(HttpServletRequest request, @RequestBody User user) {
+    public Result userLogin(HttpServletRequest request, @RequestBody User user) {
 
         String tel = user.getUserTel();
         String password = user.getUserPassword();
-        if (tel == null ) {
-            return "请输入用户名";
-        }else if(password == null){
-            return "请输入密码";
-        }
 
         User loginUser = userService.getUserByTel(tel);
 
         if(loginUser == null)
-            return "用户不存在请先注册";
+            return new Result(503,"用户不存在");
 
 
-        if (userService.loginUser(tel, password)) {
-            HttpSession httpSession = request.getSession();
-            httpSession.setAttribute("user", user.getUserTel());
-            return "登录成功";
+        if (userService.loginUser(tel, password) != null) {
+            return new Result(200,"",loginUser);
         }
         else {
-            return "密码错误！";
+            return new Result(503,"登录错误");
         }
 
 
@@ -95,22 +99,22 @@ public class UserController {
      */
     @Operation(summary = "用户注册")
     @PostMapping(value = "/user/register")
-    public String userRegister(@RequestBody User user) {
+    public Result userRegister(@RequestBody User user) {
 
         //验证tel,password,username是否为空
         if (user.getUserTel() == null || user.getUserPassword() == null || user.getUserName() == null) {
-            return "0";
+            return new Result( 503,"请输入账号密码");
         }
 
         //验证tel是否重复
         if (userService.getUserByTel(user.getUserTel()) != null) {
-            return "账号已存在，请勿重复注册";
+            return new Result(503,"账号已存在，请勿重复注册");
         }
 
         if(userService.registerUser(user) != null)
-            return "注册成功";
+            return new Result(200 ,"注册成功");
         else
-            return "注册失败";
+            return new Result(503, "注册失败...请重试");
     }
 
 
@@ -131,7 +135,22 @@ public class UserController {
         return 1;
     }
 
+    @Operation(summary = "获取简历")
+    @GetMapping("/user/resume/{userId}")
+    public Result getResumeInfo(@PathVariable int userId){
+        return new Result(200,"查询成功",resumeService.getResumeByUserId(userId));
+    }
 
+    @Operation(summary = "获取用户信息(Tel)")
+    @GetMapping("/user/info/{tel}")
+    public Result getUserInfoByTel(@PathVariable String tel){
+        return new  Result(200,"查询成功",userService.getUserByTel(tel));
+    }
 
-
+    @Operation(summary = "上传用户Logo")
+    @PostMapping(value = "/user/logo/upload")
+    public Result uploadHrLogo(@RequestParam("file") MultipartFile[] files) {
+        String path = "C:\\Users\\StephenHe\\IdeaProjects\\recruitment-front\\src\\assets\\logo\\user\\";
+        return new Result(200,"上传成功",userService.uploadUserLogo(files,path));
+    }
 }

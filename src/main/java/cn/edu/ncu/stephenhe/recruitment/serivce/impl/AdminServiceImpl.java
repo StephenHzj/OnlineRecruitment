@@ -8,6 +8,7 @@ import cn.edu.ncu.stephenhe.recruitment.entity.Job;
 import cn.edu.ncu.stephenhe.recruitment.entity.User;
 import cn.edu.ncu.stephenhe.recruitment.entity.response.Result;
 import cn.edu.ncu.stephenhe.recruitment.serivce.AdminService;
+import cn.edu.ncu.stephenhe.recruitment.utils.JwtUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -78,14 +79,15 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public boolean loginAdmin(String tel, String password) {
-        Admin admin = adminRepository.getAdminByAdminTel(tel);
+    public String loginAdmin(String tel, String password) {
+        Admin admin =adminRepository.getAdminByAdminTel(tel);
         if(admin == null)
-            return false;
-        if(admin.getAdminPassword().equals(password))
-            return true;
-        else
-            return false;
+            return null;
+        else if(admin.getAdminPassword().equals(password)){
+            String token =  JwtUtil.createToken(admin);
+            return token;
+        }else
+            return null;
     }
 
 
