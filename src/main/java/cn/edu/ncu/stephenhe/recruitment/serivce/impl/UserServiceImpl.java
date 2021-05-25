@@ -58,7 +58,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User registerUser(String tel, String name, String password, String email) {
+        User user = new User();
+        user.setUserName(name);
+        user.setUserTel(tel);
+        user.setUserPassword(password);
+        user.setUserEmail(email);
+
+        return userRepository.save(user);
+
+    }
+
+    @Override
     public String loginUser(String tel, String password) {
+
         User user = userRepository.getUserByUserTel(tel);
         if(user == null)
             return null;

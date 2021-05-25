@@ -1,8 +1,10 @@
 package cn.edu.ncu.stephenhe.recruitment.controller;
 
 
+import cn.edu.ncu.stephenhe.recruitment.entity.Hr;
 import cn.edu.ncu.stephenhe.recruitment.entity.User;
 import cn.edu.ncu.stephenhe.recruitment.entity.response.Result;
+import cn.edu.ncu.stephenhe.recruitment.serivce.HrService;
 import cn.edu.ncu.stephenhe.recruitment.serivce.JobService;
 import cn.edu.ncu.stephenhe.recruitment.serivce.ResumeService;
 import cn.edu.ncu.stephenhe.recruitment.serivce.UserService;
@@ -29,6 +31,9 @@ public class UserController {
     @Resource
     private ResumeService resumeService;
 
+    @Resource
+    private HrService hrService;
+
 
 
     /**
@@ -44,25 +49,26 @@ public class UserController {
         String password = user.getUserPassword();
 
         User loginUser = userService.getUserByTel(tel);
+        Hr loginHr = hrService.getHrByTel(tel);
 
-        if(loginUser == null)
+        if(loginUser == null&&loginHr == null)
             return new Result(503,"用户不存在");
 
-
         if (userService.loginUser(tel, password) != null) {
-            return new Result(200,"",loginUser);
+            return new Result(200,"用户登陆成功",loginUser);
         }
         else {
-            return new Result(503,"登录错误");
+            if(hrService.loginHr(tel,password) != null)
+                return new Result(200,"HR登录成功",loginHr);
+            else
+                return new Result(503,"登录错误");
         }
-
 
 //        request.getSession().setAttribute("user", user);
 //        Cookie cookie = new Cookie("user","123");
 //        cookie.setMaxAge(10);
 //        response.addCookie(cookie);
 //        return "success";
-
 
         //前端验证
     }
@@ -97,25 +103,25 @@ public class UserController {
      * @param user
      * @return 注册 成功->1 失败->0
      */
-    @Operation(summary = "用户注册")
-    @PostMapping(value = "/user/register")
-    public Result userRegister(@RequestBody User user) {
-
-        //验证tel,password,username是否为空
-        if (user.getUserTel() == null || user.getUserPassword() == null || user.getUserName() == null) {
-            return new Result( 503,"请输入账号密码");
-        }
-
-        //验证tel是否重复
-        if (userService.getUserByTel(user.getUserTel()) != null) {
-            return new Result(503,"账号已存在，请勿重复注册");
-        }
-
-        if(userService.registerUser(user) != null)
-            return new Result(200 ,"注册成功");
-        else
-            return new Result(503, "注册失败...请重试");
-    }
+//    @Operation(summary = "用户注册")
+//    @PostMapping(value = "/user/register")
+//    public Result userRegister(@RequestBody User user) {
+//
+//        //验证tel,password,username是否为空
+//        if (user.getUserTel() == null || user.getUserPassword() == null || user.getUserName() == null) {
+//            return new Result( 503,"请输入账号密码");
+//        }
+//
+//        //验证tel是否重复
+//        if (userService.getUserByTel(user.getUserTel()) != null && hrService.getHrByTel(user.getUserTel()) != null) {
+//            return new Result(503,"账号已存在，请勿重复注册");
+//        }
+//
+//        if(userService.registerUser(user) != null)
+//            return new Result(200 ,"注册成功");
+//        else
+//            return new Result(503, "注册失败...请重试");
+//    }
 
 
     @Operation(summary = "查找用户(id)")

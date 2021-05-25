@@ -22,6 +22,11 @@ public class ApplicationController {
         String userTel = jsonObject.get("userTel").toString();
         int jobId = (int)jsonObject.get("jobId");
 
+        //不能重复投递一个岗位
+        if(applicationService.getAppByJobIdAndUserTel(jobId,userTel) != null)
+            return new Result(503,"请勿重复投递");
+
+
         int state = applicationService.appJob(userTel,jobId);
         if(state == 1)
             return new Result(200,"申请成功");

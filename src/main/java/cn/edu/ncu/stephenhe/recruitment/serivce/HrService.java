@@ -14,4 +14,9 @@ public interface HrService {
     Hr getHrByTel(String tel);
 
     Hr registerHr(Hr hr);
+
+    Hr registerHr(String tel,String name,String password,String email);
+
+
+    String loginHr(String tel,String password);
 }

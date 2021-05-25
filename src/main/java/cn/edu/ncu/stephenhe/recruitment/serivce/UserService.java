@@ -22,6 +22,8 @@ public interface UserService {
 
     User registerUser(User user);
 
+    User registerUser(String tel,String name, String password, String email);
+
     String loginUser(String tel,String password);
 
     User updateUser(User user);

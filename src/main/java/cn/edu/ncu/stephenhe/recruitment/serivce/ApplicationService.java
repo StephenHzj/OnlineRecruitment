@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface ApplicationService {
     int appJob(String userTel, int jobId);
+    Application getAppByJobIdAndUserTel(int jobId,String userTel);
 
     List<Application> getApplicationByUserId(int userId);
     List<Application> getApplicationByUserTel(String userTel);

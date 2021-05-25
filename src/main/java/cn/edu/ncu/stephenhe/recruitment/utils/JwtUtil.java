@@ -2,6 +2,7 @@ package cn.edu.ncu.stephenhe.recruitment.utils;
 
 
 import cn.edu.ncu.stephenhe.recruitment.entity.Admin;
+import cn.edu.ncu.stephenhe.recruitment.entity.Hr;
 import cn.edu.ncu.stephenhe.recruitment.entity.User;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -50,6 +51,24 @@ public class JwtUtil {
                 //可以把数据存在claim中
                 .withClaim("id",user.getUserId())      //userId
                 .withClaim("tel",user.getUserTel())
+                .withExpiresAt(expireDate)          //超时设置,设置过期的日期
+                .withIssuedAt(new Date()) //签发时间
+                .sign(algorithm); //SECRET加密
+        return token;
+    }
+    public  static String createToken(Hr hr){
+        //过期时间
+        Date expireDate = new Date(System.currentTimeMillis() + EXPIRATION * 1000);
+        //私钥加密算法
+        Algorithm algorithm=Algorithm.HMAC256(SECRET);
+        Map<String, Object> header = new HashMap<>();
+        header.put("alg", "HS256");
+        header.put("typ", "JWT");
+        String token= JWT.create()
+                .withHeader(header)                //添加头部
+                //可以把数据存在claim中
+                .withClaim("id",hr.getHrId())      //userId
+                .withClaim("tel",hr.getHrTel())
                 .withExpiresAt(expireDate)          //超时设置,设置过期的日期
                 .withIssuedAt(new Date()) //签发时间
                 .sign(algorithm); //SECRET加密

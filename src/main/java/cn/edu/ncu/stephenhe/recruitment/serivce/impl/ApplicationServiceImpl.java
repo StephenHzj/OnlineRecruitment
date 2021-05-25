@@ -54,6 +54,12 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
+    public Application getAppByJobIdAndUserTel(int jobId, String userTel) {
+        int userId = userRepository.getUserByUserTel(userTel).getUserId();
+        return applicationRepository.getApplicationByJobIdAndUserId(jobId,userId);
+    }
+
+    @Override
     public List<Application> getApplicationByUserId(int userId) {
         return applicationMapper.getAppByUserId(userId);
 
