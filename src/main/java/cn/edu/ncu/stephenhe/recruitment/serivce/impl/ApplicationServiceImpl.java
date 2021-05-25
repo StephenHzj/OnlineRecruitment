@@ -37,6 +37,7 @@ public class ApplicationServiceImpl implements ApplicationService {
         Job job = jobRepository.getJobByJobId(jobId);
         int resumeId = resumeRepository.getResumeByUserId(userId).getResumeId();
         int dealHrId = job.getHrId();
+        int companyId = job.getCompanyId();
         Date date = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String applicationDate = sdf.format(date);
@@ -45,6 +46,7 @@ public class ApplicationServiceImpl implements ApplicationService {
         application.setResumeId(resumeId);
         application.setUserId(userId);
         application.setDealHrId(dealHrId);
+        application.setCompanyId(companyId);
         application.setApplicationDate(applicationDate);
         application.setApplicationState(0);
         applicationRepository.save(application);

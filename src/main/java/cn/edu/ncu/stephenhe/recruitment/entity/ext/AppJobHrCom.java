@@ -9,6 +9,6 @@ public class AppJobHrCom extends Application {
 
     private String jobName;
     private String hrName;
-    private String comName;
+    private String companyName;
 
 }

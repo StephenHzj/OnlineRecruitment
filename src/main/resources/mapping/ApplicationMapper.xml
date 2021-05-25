@@ -13,6 +13,6 @@
     <select id="getAppByUserTel" resultType="cn.edu.ncu.stephenhe.recruitment.entity.ext.AppJobHrCom" >
         select *
         from application a join job j on j.job_id = a.job_id join hr h on a.deal_hr_id = h.hr_id
-                           join company c on c.company_id = h.company_id and a.user_id = #{userTel}
+                           join company c on c.company_id = a.company_id and a.user_id = #{userTel}
     </select>
 </mapper>

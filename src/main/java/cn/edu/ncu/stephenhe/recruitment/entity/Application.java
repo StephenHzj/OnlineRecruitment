@@ -44,6 +44,9 @@ public class Application{
     @NotNull
     private Integer dealHrId;
 
+    @Column(name = "company_id")
+    private Integer companyId;
+
     @Column(name = "application_date")
     private String applicationDate;
 
