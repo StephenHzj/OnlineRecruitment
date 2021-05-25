@@ -68,7 +68,55 @@ public class UploadUtils {
         return "error";
     }
 
+    public String uploadLogo(MultipartFile[] file,String rootPath,String tel){
+        File fileDir = new File(rootPath);
+        //文件夹不存在 则创建文件夹
+        if (!fileDir.exists() && !fileDir.isDirectory()) {
+            fileDir.mkdirs();
+        }
+        try {
+            if (file != null && file.length > 0) {
+                for(int i = 0;i<file.length;i++){
+                    try {
+                        //以原来的名称命名,覆盖掉旧的，这里也可以使用UUID之类的方式命名，这里就没有处理了
+                        String fileName = file[i].getOriginalFilename();
+                        String fileType = fileName.substring(fileName.lastIndexOf(".") + 1);
 
+                        String logoName = (tel+"."+fileType).replaceAll("-","");
+                        String storagePath = rootPath+logoName;
+
+                        System.out.println("上传的文件：" + file[i].getName() + "," + file[i].getContentType() + "," + file[i].getOriginalFilename()
+                                +"，保存的路径为：" + storagePath);
+
+                        File Logo = new File(storagePath);
+                        if (Logo.exists())
+                        {
+                            Logo.delete();
+                        }
+                        InputStream is = file[i].getInputStream();
+                        FileOutputStream fos = new FileOutputStream(Logo);
+                        int length;
+                        byte[] bytes = new byte[1024*1024];
+                        while ((length = is.read(bytes)) != -1)
+                        {
+                            fos.write(bytes, 0, length);
+                        }
+                        is.close();
+                        fos.close();
+
+                        return logoName;
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        //前端可以通过状态码，判断文件是否上传成功
+        return "error";
+    }
     public String uploadImg(MultipartFile[] files) {
 
 

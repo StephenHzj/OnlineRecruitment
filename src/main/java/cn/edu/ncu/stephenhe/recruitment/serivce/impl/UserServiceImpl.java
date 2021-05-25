@@ -84,13 +84,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User updateUser(User user) {
-        return null;
+        return userRepository.save(user);
     }
 
     @Override
-    public String uploadUserLogo(MultipartFile[] files, String path) {
+    public String uploadUserLogo(MultipartFile[] files, String tel) {
+        String path = "C:\\Users\\StephenHe\\IdeaProjects\\recruitment-front\\src\\assets\\logo\\user\\";
         UploadUtils uploadUtils = new UploadUtils();
-        return uploadUtils.uploadFile(files,path) ;
+        return uploadUtils.uploadLogo(files,path,tel) ;
     }
 
 

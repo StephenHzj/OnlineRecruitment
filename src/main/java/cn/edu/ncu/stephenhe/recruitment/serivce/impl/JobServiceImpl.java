@@ -30,8 +30,8 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public List<Job> getJobsInfo() {
-        return jobMapper.getJobsInfo();
+    public List<Job> getJobList() {
+        return jobMapper.getJobsList();
     }
 
     @Override

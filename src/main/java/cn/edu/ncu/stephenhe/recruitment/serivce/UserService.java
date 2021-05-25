@@ -28,7 +28,7 @@ public interface UserService {
 
     User updateUser(User user);
 
-    String uploadUserLogo(MultipartFile[] files, String path);
+    String uploadUserLogo(MultipartFile[] files, String tel);
 
 
 }

@@ -5,6 +5,7 @@ import cn.edu.ncu.stephenhe.recruitment.dao.mapper.JobMapper;
 import cn.edu.ncu.stephenhe.recruitment.entity.Job;
 import cn.edu.ncu.stephenhe.recruitment.entity.response.Result;
 import cn.edu.ncu.stephenhe.recruitment.serivce.JobService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,12 +26,6 @@ public class JobController {
     @Resource
     private JobMapper jobMapper;
 
-    @GetMapping(path = "/job/showAll")
-    @ResponseBody
-    public List<Job> getAllJob(){
-        return jobService.getAllJobs();
-    }
-
     @GetMapping(path = "/job/{id}")
     @ResponseBody
     public Result getJobById(@PathVariable int id){
@@ -46,6 +41,12 @@ public class JobController {
     public Result showJob(){
 
         return new Result(200,"查询成功",jobService.showJob());
+    }
+
+    @Operation(summary = "查看岗位(全部)")
+    @GetMapping(path = "/job")
+    public Result getAllJobs(){
+        return new Result(200,"查询成功",jobService.getJobList());
     }
 
 

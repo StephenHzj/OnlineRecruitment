@@ -8,7 +8,7 @@ import java.util.List;
 
 @Mapper
 public interface JobMapper {
-    List<Job> getJobsInfo();
+    List<Job> getJobsList();
 
     List<Job> showJob();
 

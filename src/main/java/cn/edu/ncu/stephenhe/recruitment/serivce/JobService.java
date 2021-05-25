@@ -10,7 +10,7 @@ public interface JobService {
 
     Job getJobById(int id);
 
-    List<Job> getJobsInfo();
+    List<Job> getJobList();
 
     boolean disableJob(int id);
 

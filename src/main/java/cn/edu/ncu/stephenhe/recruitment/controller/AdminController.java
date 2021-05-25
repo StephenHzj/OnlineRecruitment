@@ -72,7 +72,7 @@ public class AdminController {
     @Operation(summary = "查看岗位(全部)")
     @GetMapping(path = "/job")
     public Result getAllJobs(){
-        return new Result(200,"查询成功",jobService.getJobsInfo());
+        return new Result(200,"查询成功",jobService.getJobList());
     }
 
 

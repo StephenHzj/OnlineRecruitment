@@ -130,15 +130,14 @@ public class UserController {
         return userService.getUserById(id);
     }
 
+
     @Operation(summary = "修改用户信息")
-    @PostMapping(value = "/user/update")
-    public int userUpdate(@RequestBody User user){
-
+    @PostMapping(value = "/user/info/update")
+    public Result userUpdate(@RequestBody User user){
         if(userService.getUserByTel(user.getUserTel())==null)
-            return 0;
-
+            return new Result(503,"更新失败");
         userService.updateUser(user);
-        return 1;
+        return new Result(200,"更新成功");
     }
 
     @Operation(summary = "获取简历")
@@ -155,8 +154,7 @@ public class UserController {
 
     @Operation(summary = "上传用户Logo")
     @PostMapping(value = "/user/logo/upload")
-    public Result uploadHrLogo(@RequestParam("file") MultipartFile[] files) {
-        String path = "C:\\Users\\StephenHe\\IdeaProjects\\recruitment-front\\src\\assets\\logo\\user\\";
-        return new Result(200,"上传成功",userService.uploadUserLogo(files,path));
+    public Result uploadHrLogo(@RequestParam("file") MultipartFile[] files,@RequestParam("userTel") String tel) {
+        return new Result(200,"上传成功",userService.uploadUserLogo(files,tel));
     }
 }
